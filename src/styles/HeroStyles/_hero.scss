@@ -2,9 +2,11 @@
 
 .hero-section {
   width: 100%;
-  height: 97vh;
+  min-height: 100vh;
   background-color: $bg-gray;
   position: relative;
+  overflow: hidden;
+  padding: 2rem 0;
 }
 
 .bg-shape {
@@ -12,6 +14,12 @@
   top: 0;
   right: 0;
   z-index: 1;
+  width: 50%;
+  height: auto;
+  
+  @media (max-width: 1024px) {
+    width: 65%;
+  }
 
   @media (max-width: 800px) {
     display: none;
@@ -20,53 +28,71 @@
 
 .hero-content {
   width: 100%;
-  height: 100vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   position: relative;
+  gap: 2rem;
+  padding: 0 2rem;
 
   @media (max-width: 800px) {
     justify-content: center;
+    text-align: center;
+    padding-top: 3rem;
   }
 
   &__text {
     display: flex;
     flex-direction: column;
     z-index: 3;
-    max-width: 50rem;
-    margin-top: 5rem;
+    max-width: 54rem;
+    margin-top: 2rem;
 
     @media (max-width: 800px) {
       text-align: center;
       align-items: center;
+      margin-top: 0;
     }
 
     h4 {
       font-size: $h4-size;
       font-family: $text-font;
       color: $text-black;
+      margin-bottom: 1rem;
+      animation: fadeInUp 1s ease;
     }
 
     h1 {
-      font-size: $h1-size;
+      font-size: clamp(3.5rem, 5vw, $h1-size);
       font-family: $titles-font;
       font-weight: 700;
       color: $text-black;
       line-height: 1.2;
       margin-top: 1rem;
       margin-bottom: 2.3rem;
+      animation: fadeInUp 1s ease 0.2s;
+      animation-fill-mode: both;
 
       span {
         color: $text-orange;
+        display: inline-block;
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: translateY(-8px);
+        }
       }
     }
 
     p {
-      font-size: $p-size;
+      font-size: clamp(1rem, 2vw, $p-size);
       font-family: $text-font;
       line-height: 1.6;
       color: $text-gray;
       margin-bottom: 4rem;
+      animation: fadeInUp 1s ease 0.4s;
+      animation-fill-mode: both;
     }
 
     &__btns {
@@ -74,45 +100,81 @@
       gap: 2rem;
       font-size: $p-size;
       font-family: $text-font;
+      animation: fadeInUp 1s ease 0.6s;
+      animation-fill-mode: both;
 
       @media (max-width: 450px) {
         flex-direction: column;
+        width: 100%;
+        gap: 1rem;
       }
 
       a {
         text-decoration: none;
         color: white;
         font-weight: 700;
+        transition: all 0.3s ease;
+        
+        @media (max-width: 450px) {
+          width: 100%;
+          text-align: center;
+        }
       }
 
       &__book-ride {
         background-color: $text-orange;
         padding: 1.8rem 3rem;
-        border-radius: 0.3rem;
-        box-shadow: 0 10px 15px 0 rgb(255 83 48 / 35%);
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px 0 rgb(255 83 48 / 25%);
         transition: all 0.3s;
         border: 2px solid $text-orange;
+        position: relative;
+        overflow: hidden;
 
-        @media (max-width: 450px) {
-          padding: 1.8rem 8rem;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+          );
+          transition: 0.5s;
+        }
+
+        &:hover::before {
+          left: 100%;
         }
 
         &:hover {
-          box-shadow: 0 10px 15px 0 rgb(255 83 48 / 60%);
-          background-color: #fa4226;
+          transform: translateY(-3px);
+          box-shadow: 0 10px 20px 0 rgb(255 83 48 / 40%);
+        }
+
+        @media (max-width: 450px) {
+          padding: 1.8rem 2rem;
         }
       }
 
       &__learn-more {
         background-color: $text-black;
         padding: 1.8rem 3rem;
-        border-radius: 0.3rem;
+        border-radius: 0.5rem;
         border: 2px solid $text-black;
         transition: all 0.3s;
 
         &:hover {
           background-color: transparent;
           color: $text-black;
+        }
+
+        @media (max-width: 450px) {
+          padding: 1.8rem 2rem;
         }
       }
     }
@@ -122,8 +184,10 @@
     z-index: 2;
     position: absolute;
     right: 0;
-    width: 65%;
+    width: 60%;
     margin-top: 5rem;
+    animation: fadeInRight 1s ease 0.8s;
+    animation-fill-mode: both;
 
     @media (max-width: 800px) {
       display: none;
@@ -133,23 +197,55 @@
 
 .scroll-up {
   position: fixed;
-  font-size: 2.5rem;
-  color: white;
+  bottom: 2rem;
+  right: 2rem;
   background-color: $text-orange;
-  border: 3px solid white;
-  width: 2rem;
-  height: 2rem;
-  bottom: 5rem;
-  right: 5rem;
-  z-index: 20;
-  display: none;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
   align-items: center;
-  text-align: center;
   justify-content: center;
-  padding: 2rem;
   cursor: pointer;
+  transition: all 0.3s;
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+
+  &.show-scroll {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  i {
+    color: white;
+    font-size: 2rem;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px 0 rgb(255 83 48 / 35%);
+  }
 }
 
-.show-scroll {
-  display: flex;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
